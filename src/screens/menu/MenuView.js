@@ -5,8 +5,8 @@ import {
 } from '@react-navigation/drawer';
 import { Block, Text } from 'expo-ui-kit';
 import { Image, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 
+import { AuthContext } from "../../contexts/AuthContext";
 import Route from '../../constants/Route';
 
 import icLogin from '../../assets/icons/ic_login.png';
@@ -16,6 +16,7 @@ import icChangePassword from '../../assets/icons/ic_key.png';
 import icHistory from '../../assets/icons/ic_file.png';
 
 export const DrawerMenuHasToken = props => {
+  const { signOut } = React.useContext(AuthContext);
   return (
     <DrawerContentScrollView {...props} scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
       <Block>
@@ -31,10 +32,10 @@ export const DrawerMenuHasToken = props => {
             style={styles.avatar}
           />
           <Text white title>
-            React UI Kit
+            {props.user.name}
           </Text>
           <Text white size={9}>
-            contact@react-ui-kit.com
+            {props.user.email}
           </Text>
         </Block>
         <Block>
@@ -50,29 +51,29 @@ export const DrawerMenuHasToken = props => {
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
             onPress={() => props.navigation.navigate(Route.POSTED)}
-            icon={() => <Image source={icHistory } style={{width: 20, height: 20, marginLeft: 15}} />}
+            icon={() => <Image source={icHistory } style={styles.icon} />}
           />
 
           <DrawerItem
             label="Change Info"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
-            onPress={() => props.navigation.navigate('ChangeInfo')}
-            icon={() => <Image source={icChangInfo } style={{width: 20, height: 20, marginLeft: 15}} />}
+            onPress={() => props.navigation.navigate(Route.CHANGE_INFO)}
+            icon={() => <Image source={icChangInfo } style={styles.icon} />}
           />
           <DrawerItem
             label="Change Password"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
-            onPress={() => props.navigation.navigate('ChangePassword')}
-            icon={() => <Image source={icChangePassword } style={{width: 20, height: 20, marginLeft: 15}}/>}
+            onPress={() => props.navigation.navigate(Route.CHANGE_PASSWORD)}
+            icon={() => <Image source={icChangePassword } style={styles.icon}/>}
           />
           <DrawerItem
           label="Logout"
           labelStyle={{ color: 'white' , marginLeft: -16}}
           style={{ alignItems: 'flex-start', marginVertical: 0 }}
-          icon={() =><Image source={icLogout } style={{width: 20, height: 20, marginLeft: 15}} />}
-          onPress={() => props.navigation.navigate('Login')}
+          icon={() =><Image source={icLogout } style={styles.icon} />}
+          onPress={() => signOut() }
         />
         </Block>
       </Block>
@@ -95,19 +96,13 @@ export const DrawerMenuHasNotToken = props => {
             resizeMode="center"
             style={styles.avatar}
           />
-          <Text white title>
-            React UI Kit
-          </Text>
-          <Text white size={9}>
-            contact@react-ui-kit.com
-          </Text>
         </Block>
 
         <DrawerItem
           label="Login"
           labelStyle={{ color: 'white' }}
-          icon={() => <Image source={ icLogin } style={{width: 20, height: 20, marginLeft: 15}} />}
-          onPress={() => props.navigation.navigate('Login')}
+          icon={() => <Image source={ icLogin } style={styles.icon} />}
+          onPress={() => props.navigation.navigate(Route.LOGIN)}
         />
       </Block>
     </DrawerContentScrollView>
@@ -136,6 +131,11 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: StyleSheet.hairlineWidth,
   },
+  icon: {
+    width: 20,
+    height: 20, 
+    marginLeft: 15
+  }
 });
 
 

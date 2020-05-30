@@ -7,20 +7,48 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerMenuHasToken, DrawerMenuHasNotToken } from '../screens/menu/MenuView';
 import { MenuScreens } from '../screens/menu/Menu';
 
+import { AuthContext } from "../contexts/AuthContext";
+import getToken from '../api/getToken';
+import saveToken from '../api/saveToken';
+import checkLogin from '../api/checkLogin'
+
 const Drawer = createDrawerNavigator();
 
 export default () => {
 
+  const [progress, setProgress] = React.useState(new Animated.Value(0));
+  const [user, setUser] = React.useState(null);
+  
+  const [token, setToken] = React.useState('');
+
+  const authContext = React.useMemo(() => {
+    return {
+      signIn: async () => {
+        console.log('signIn MAIN')
+        getToken()
+          .then( token => {
+            setToken(token)
+            checkLogin(token)
+              .then(res=> setUser(res.user))
+          })
+      },
+      signOut: () => {
+        saveToken('')
+        setToken('');
+      }
+    };
+  }, []);
+
+
   useEffect(() => {
-    console.log("componentDidMount");
+    getToken()
+      .then(token => setToken(token))
+
     return () => {
       console.log("componentWillUnmount");
     };
   }, []);
 
-  const [progress, setProgress] = React.useState(new Animated.Value(0));
-
-  const [token, setToken] = React.useState(null);
 
   const scale = Animated.interpolate(progress, {
     inputRange: [0, 1],
@@ -34,25 +62,27 @@ export default () => {
   const animatedStyle = { borderRadius, transform: [{ scale }] };
   return (
     <LinearGradient style={{ flex: 1 }} colors={['#E94057', '#4A00E0']}>
-      <Drawer.Navigator
-        drawerType="slide"
-        overlayColor="transparent"
-        drawerStyle={styles.drawerStyles}
-        contentContainerStyle={{ flex: 1 }}
-        drawerContentOptions={{
-          activeBackgroundColor: 'transparent',
-          activeTintColor: 'white',
-          inactiveTintColor: 'white',
-        }}
-        sceneContainerStyle={{ backgroundColor: 'transparent' }}
-        drawerContent={props => {
-          setProgress(props.progress);
-          return token ? <DrawerMenuHasToken {...props} />: <DrawerMenuHasNotToken {...props} />;
-        }}>
-        <Drawer.Screen name="Screens">
-          {props => <MenuScreens  {...props} style={animatedStyle} />}
-        </Drawer.Screen>
-      </Drawer.Navigator>
+      <AuthContext.Provider value={ authContext }>
+        <Drawer.Navigator
+          drawerType="slide"
+          overlayColor="transparent"
+          drawerStyle={styles.drawerStyles}
+          contentContainerStyle={{ flex: 1 }}
+          drawerContentOptions={{
+            activeBackgroundColor: 'transparent',
+            activeTintColor: 'white',
+            inactiveTintColor: 'white',
+          }}
+          sceneContainerStyle={{ backgroundColor: 'transparent' }}
+          drawerContent={props => {
+            setProgress(props.progress);
+            return token ? <DrawerMenuHasToken {...props} user = {user}/>: <DrawerMenuHasNotToken {...props} />;
+          }}>
+          <Drawer.Screen name="Screens">
+            {props => <MenuScreens  {...props} style={animatedStyle} />}
+          </Drawer.Screen>
+        </Drawer.Navigator>
+      </AuthContext.Provider>
     </LinearGradient>
   );
 };

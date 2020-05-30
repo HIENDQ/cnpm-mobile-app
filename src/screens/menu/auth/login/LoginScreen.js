@@ -6,7 +6,9 @@ import * as yup from 'yup'
 
 import { Button, Block, Text, Input } from '../../../../components';
 import Route from '../../../../constants/Route';
-// import { AuthContext } from '../../../../contexts/AuthContext';
+import login from '../../../../api/login'
+import saveToken from '../../../../api/saveToken'
+import { AuthContext } from '../../../../contexts/AuthContext' 
 
 const { height } = Dimensions.get('window');
 
@@ -14,8 +16,22 @@ const validationSchema = yup.object().shape({
   email: yup.string().label('Email').email().required(),
   password: yup.string().label('Password').required().min(3, 'Seems a bit short...').max(10, 'We prefer insecure system, try a shorter password')
 })
+
+const Login = async (values, navigation, signIn) =>{
+  login(values)
+    .then(res => {
+      if(res.token)  {
+        saveToken(res.token);
+        signIn();
+        navigation.navigate(Route.DASHBOARD)
+        
+      }
+      else console.log('Has not token')
+    })
+
+}
 export const LoginScreen = ({ navigation }) => {
-  // const { signIn } = React.useContext(AuthContext);
+   const { signIn } = React.useContext(AuthContext);
     return (
       <KeyboardAwareScrollView
         enabled
@@ -25,6 +41,11 @@ export const LoginScreen = ({ navigation }) => {
       >
         <Formik
         initialValues = {{email : '', password: ''}}
+      
+
+        onSubmit = {(values) => {
+          Login( values ,navigation, signIn)
+        }}
         validationSchema = {validationSchema}
         >
           {formikProps => (
@@ -65,10 +86,8 @@ export const LoginScreen = ({ navigation }) => {
                   />
                   <Button
                     full
+                    onPress={ formikProps.handleSubmit}
                     style={{ marginBottom: 12 }}
-                    onPress = {()=> {
-                      navigation.navigate(Route.DASHBOARD)
-                    }}
                   >
                   <Text button >Sign in</Text>
                   </Button>
@@ -76,7 +95,7 @@ export const LoginScreen = ({ navigation }) => {
                     Don't have an account? <Text
                     height={18}
                     color="blue"
-                    onPress={() => navigation.navigate(Route.LOGUP)}>
+                    onPress={() => navigation.navigate({name: Route.LOGUP, key: 'l'} )}>
                     Sign up
                   </Text>
                 </Text>
