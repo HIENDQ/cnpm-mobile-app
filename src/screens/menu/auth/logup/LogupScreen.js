@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Dimensions, Alert } from 'react-native';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -8,7 +8,7 @@ import * as yup from 'yup'
 import Route from '../../../../constants/Route';
 import { Button, Block, Text, Input } from '../../../../components/index';
 import * as theme from '../../../../constants/theme';
-import { AuthContext } from '../../../../contexts/AuthContext'; 
+import register from '../../../../api/register'
 
 const { height } = Dimensions.get('window');
 const validationSchema = yup.object().shape({
@@ -19,16 +19,22 @@ const validationSchema = yup.object().shape({
     return this.parent.password === value;
   }),
 })
-const Singup = (values, navigation) =>{
-  encryptPassword('123131313');
+const SignUp = async (values, navigation) =>{
+  console.log(values)
+  register(values)
+    //.then(res => console.log('message: '+res.message))
+    .then(res => {
+      if(res.message === 'Done')  onSuccess(navigation)
+      else onFail();
+    })
 
 }
 const onSuccess = (navigation) =>{
   Alert.alert(
     'Notice',
-    'SignIn on Successfully',
+    'SignUp on Successfully',
     [
-      { text:'OK', onPress: navigation.navigate(Route.SIGN_IN)}
+      { text:'OK', onPress: () => navigation.navigate(Route.LOGIN) }
     ],
     {cancelable: false}
   )
@@ -36,7 +42,10 @@ const onSuccess = (navigation) =>{
 const onFail = () => {
   Alert.alert(
     'Notice',
-    'Number phone has been used by other',
+    'Email has been used by other'
+    [
+      { text:'OK', onPress: { }}
+    ],
   )
 }
 const encryptPassword = ( password ) => {
@@ -44,9 +53,7 @@ const encryptPassword = ( password ) => {
 }
 export const LogupScreen = ({ navigation }) =>  {
 
-  const [password, setPassword] = React.useState('');
-  // const { signUp } = React.useContext(AuthContext);
-
+  const [email, setEmail] = React.useState(''); 
     return (
       <KeyboardAwareScrollView 
       style={{ marginVertical: 60 }} 
@@ -54,7 +61,7 @@ export const LogupScreen = ({ navigation }) =>  {
         <Formik
         initialValues = {{name :'',email: '' ,password: '', confirmPassword: ''}}
         onSubmit = {(values) => {
-          SignIn(values, navigation)
+          SignUp( values ,navigation)
         }}
         validationSchema = {validationSchema}
         >
@@ -77,7 +84,7 @@ export const LogupScreen = ({ navigation }) =>  {
               />
               <Input
                 full
-                phone
+                email
                 label = "Email"
                 style = {{ marginBottom: 25 }}
                 formikProps = {formikProps}
