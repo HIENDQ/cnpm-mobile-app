@@ -1,5 +1,7 @@
-const login = (values) =>(
-    fetch('http://192.168.1.5:5000/api/auth/login', 
+
+import  link from './link';
+const login = async (values) =>(
+    await fetch('http://'+link+':5000/api/auth/login', 
     {
         method: 'POST',
         headers: {

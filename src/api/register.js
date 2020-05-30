@@ -1,6 +1,8 @@
+
+import link from './link';
 const register =  (values) =>(
 
-    fetch('http://192.168.1.5:5000/api/auth/signup', 
+    fetch('http://'+link+':5000/api/auth/signup', 
     {
         method: 'POST',
         headers: {
@@ -12,7 +14,6 @@ const register =  (values) =>(
     .then( res => res.json())
     .catch((error)=>{
         console.log("Api call error");
-        alert(error.message);
      })
 
 )

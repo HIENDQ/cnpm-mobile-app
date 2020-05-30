@@ -20,9 +20,7 @@ const validationSchema = yup.object().shape({
   }),
 })
 const SignUp = async (values, navigation) =>{
-  console.log(values)
   register(values)
-    //.then(res => console.log('message: '+res.message))
     .then(res => {
       if(res.message === 'Done')  onSuccess(navigation)
       else onFail();

@@ -15,8 +15,13 @@ import icChangInfo from '../../assets/icons/ic_avatar.png';
 import icChangePassword from '../../assets/icons/ic_key.png';
 import icHistory from '../../assets/icons/ic_file.png';
 
+import getUser from '../../api/getUser';
+
 export const DrawerMenuHasToken = props => {
   const { signOut } = React.useContext(AuthContext);
+
+  
+
   return (
     <DrawerContentScrollView {...props} scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
       <Block>
@@ -32,10 +37,10 @@ export const DrawerMenuHasToken = props => {
             style={styles.avatar}
           />
           <Text white title>
-            {props.user.name}
+            { props.user.name}
           </Text>
           <Text white size={9}>
-            {props.user.email}
+            { props.user.email}
           </Text>
         </Block>
         <Block>
@@ -55,10 +60,10 @@ export const DrawerMenuHasToken = props => {
           />
 
           <DrawerItem
-            label="Change Info"
+            label="Information"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
-            onPress={() => props.navigation.navigate(Route.CHANGE_INFO)}
+            onPress={() => props.navigation.navigate(Route.INFO)}
             icon={() => <Image source={icChangInfo } style={styles.icon} />}
           />
           <DrawerItem

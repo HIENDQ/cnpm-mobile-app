@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Alert } from 'react-native';
+
+import changePassword from '../../../api/changepassword'
+import getToken from '../../../api/getToken';
+import Route from '../../../constants/Route';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Formik } from 'formik'
@@ -14,7 +18,40 @@ const validationSchema = yup.object().shape({
     return this.parent.password === value;
   }),
 })
-export const ChangePassword = () =>{
+
+const changePass = async (values , navigation) =>{
+  getToken()
+    .then(token => {
+      changePassword( token, values.currentPassword, values.password)
+        .then(res => {
+          if(res.msg === 'Success') onSuccess(navigation)
+          else onFail();
+        });
+      
+    })
+}
+
+const onSuccess = (navigation) =>{
+  Alert.alert(
+    'Notice',
+    'Change password on Successfully',
+    [
+      { text:'OK', onPress: () => navigation.navigate(Route.DASHBOARD) }
+    ],
+    {cancelable: false}
+  )
+}
+const onFail = () => {
+  Alert.alert(
+    'Notice',
+    'Email has been used by other'
+    [
+      { text:'OK'}
+    ],
+  )
+}
+
+export const ChangePassword = ({ navigation }) =>{
     return (
       <KeyboardAwareScrollView 
       style={{ marginVertical: 60 }} 
@@ -22,7 +59,7 @@ export const ChangePassword = () =>{
         <Formik
         initialValues = {{currentPassword :'', password: '', confirmPassword: ''}}
         onSubmit = {(values) => {
-          alert(JSON.stringify(values));
+          changePass(values, navigation)
         }}
         validationSchema = {validationSchema}
         >

@@ -9,10 +9,11 @@ import { Button } from 'expo-ui-kit';
 import Route from '../../constants/Route';
 
 import Dashboard from '../dashboard/DashBoardView'
-import ChangeInfo from '../menu/changeInfo/ChangeInfoScreen';
-import ChangePassword from '../menu/changePassword/ChangePassword';
-import {LoginScreen }from '../menu/auth/login/LoginScreen';
-import {LogupScreen }from '../menu/auth/logup/LogupScreen';
+import { Information } from './information/Information';
+
+import { ChangePassword } from '../menu/changePassword/ChangePassword';
+import { LoginScreen }from '../menu/auth/login/LoginScreen';
+import { LogupScreen }from '../menu/auth/logup/LogupScreen';
 
 
 import icMenu from '../../assets/icons/bars.png';
@@ -35,7 +36,7 @@ export const MenuScreens = ({ navigation, style }) => {
             ),
           }}>
           <Stack.Screen name = { Route.DASHBOARD }>{props => <Dashboard {...props} />}</Stack.Screen>
-          <Stack.Screen name = { Route.CHANGE_INFO }>{props => <ChangeInfo {...props} />}</Stack.Screen>
+          <Stack.Screen name = { Route.INFO }>{props => <Information {...props} />}</Stack.Screen>
           <Stack.Screen name = { Route.CHANGE_PASSWORD }>{props => <ChangePassword {...props} />}</Stack.Screen>
           <Stack.Screen 
           name = {Route.LOGIN}

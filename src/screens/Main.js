@@ -10,17 +10,19 @@ import { MenuScreens } from '../screens/menu/Menu';
 import { AuthContext } from "../contexts/AuthContext";
 import getToken from '../api/getToken';
 import saveToken from '../api/saveToken';
-import checkLogin from '../api/checkLogin'
+import checkLogin from '../api/checkLogin';
+import saveUser from '../api/saveUser';
+import getUser from '../api/getUser';
 
 const Drawer = createDrawerNavigator();
 
 export default () => {
 
   const [progress, setProgress] = React.useState(new Animated.Value(0));
-  const [user, setUser] = React.useState(null);
   
-  const [token, setToken] = React.useState('');
-
+  const [token, setToken] = React.useState(null);
+  const [user, setUser] = React.useState(null);
+    
   const authContext = React.useMemo(() => {
     return {
       signIn: async () => {
@@ -28,22 +30,23 @@ export default () => {
         getToken()
           .then( token => {
             setToken(token)
-            checkLogin(token)
-              .then(res=> setUser(res.user))
-          })
+            checkLogin(token).then(res=> saveUser(res.user) )})
       },
       signOut: () => {
         saveToken('')
         setToken('');
+        saveUser(null);
       }
     };
   }, []);
 
 
   useEffect(() => {
-    getToken()
-      .then(token => setToken(token))
+    getUser().then(user => setUser(user));
+    getToken().then(token => {setToken(token)})
+    
 
+    console.log("componentDidUnmount");
     return () => {
       console.log("componentWillUnmount");
     };

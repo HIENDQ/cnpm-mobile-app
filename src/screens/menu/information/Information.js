@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text} from 'react-native';
-export default () => {
+import { View, StyleSheet, Text } from 'react-native';
+
+export const Information =() => {
   return (
     <View style = {styles.container}>
-      <Text> Change Info Screen</Text>
+      <Text> Information Screen</Text>
     </View>
   );
 };
@@ -12,6 +13,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
+    backgroundColor: 'yellow',
   },
 });

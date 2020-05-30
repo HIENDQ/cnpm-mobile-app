@@ -22,7 +22,7 @@ export default class Input extends Component {
       ? 'numeric' : phone
       ? 'phone-pad' : 'default';
     return (
-      <View>
+      <View> 
         <View style={styles.labelContainer}>
           <Text caption medium style={styles.label}>
             {label}
