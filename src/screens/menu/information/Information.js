@@ -4,8 +4,23 @@ import {Button} from '../../../components'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Textarea from 'react-native-textarea';
 var { width,height } = Dimensions.get('window');
-export const Information =() => {
 
+import getUser from '../../../api/getUser';
+
+export const Information = ({route, navigation}) => {
+
+
+  const [name, setName] = React.useState('');
+
+  React.useEffect(() => {
+    
+    setName(route.params.user.name);
+
+    console.log("componentDidUnmount");
+    return () => {
+      console.log("componentWillUnmount");
+    };
+  }, []);
   return (
     <View style = {{flex: 1 }}>
       <KeyboardAwareScrollView style = {styles.main}>
@@ -24,12 +39,12 @@ export const Information =() => {
             scale: 0.5,
           }}
           style = {styles.avatar}/>
-          <Text style={styles.txtname}>Hiền Đoàn</Text>
-          <Text style={styles.txtEmail}>t@gmail.com</Text>
+          <Text style={styles.txtname}>{route.params.user.name}</Text>
+        <Text style={styles.txtEmail}>{route.params.user.email}</Text>
         </View>
         <View style={ styles.content}> 
           <Text style={{marginLeft: 50, marginTop: 20, fontSize: 15}}>Name:</Text>
-          <TextInput style={styles.input} value='Hiền Đoàn'/>
+          <TextInput style={styles.input} value= {name}/>
           <Text style={{marginLeft: 50, marginTop: 15, color: 'black'}} >Phone: </Text>
           <TextInput style={styles.input} 
           keyboardType = 'phone-pad'

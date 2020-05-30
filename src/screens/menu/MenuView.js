@@ -15,9 +15,8 @@ import icChangInfo from '../../assets/icons/ic_avatar.png';
 import icChangePassword from '../../assets/icons/ic_key.png';
 import icHistory from '../../assets/icons/ic_file.png';
 
-import getUser from '../../api/getUser';
 
-export const DrawerMenuHasToken = props => {
+export const DrawerMenuHasToken = (props) => {
   const { signOut } = React.useContext(AuthContext);
 
   
@@ -63,7 +62,10 @@ export const DrawerMenuHasToken = props => {
             label="Information"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
-            onPress={() => props.navigation.navigate(Route.INFO)}
+            onPress={() => {props.navigation.navigate(Route.INFO, 
+              {
+                ...props
+              } )}}
             icon={() => <Image source={icChangInfo } style={styles.icon} />}
           />
           <DrawerItem
