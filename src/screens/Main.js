@@ -38,10 +38,7 @@ export default () => {
         getToken()
           .then( token => {
             setToken(token)
-            checkLogin(token).then(res=>{
-              console.log(" User: "+JSON.stringify(res.user))
-              setUser(res.user)
-            } )})
+            getUser().then( user => setUser(user))})
       },
       signOut: () => {
         saveToken('')

@@ -26,10 +26,8 @@ const validationSchema = yup.object().shape({
 const ChangeInfo = async (values , navigation, chanInfo) =>{
   getToken()
     .then(token =>{
-      console.log(token)
       changeInfo(token, values.name,  values.address, values.phone)
       .then(res => {
-        console.log(res)
         if(res.msg === 'Success') {
           saveToken(res.token)
           saveUser(res.user)
