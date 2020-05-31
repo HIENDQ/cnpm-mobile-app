@@ -33,6 +33,16 @@ export default () => {
             setToken(token)
             checkLogin(token).then(res=> saveUser(res.user) )})
       },
+      chanInfo: async () =>{
+        console.log('Change Information')
+        getToken()
+          .then( token => {
+            setToken(token)
+            checkLogin(token).then(res=>{
+              console.log(" User: "+JSON.stringify(res.user))
+              setUser(res.user)
+            } )})
+      },
       signOut: () => {
         saveToken('')
         setToken('');
@@ -45,8 +55,6 @@ export default () => {
   useEffect(() => {
     getUser().then(user => setUser(user));
     getToken().then(token => {setToken(token)})
-    
-
     console.log("componentDidUnmount");
     return () => {
       console.log("componentWillUnmount");

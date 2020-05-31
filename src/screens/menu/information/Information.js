@@ -11,6 +11,10 @@ import { Button, Block } from '../../../components';
 import  changeInfo  from '../../../api/changeinfo';
 import getToken from '../../../api/getToken';
 import Route from '../../../constants/Route';
+import saveToken from '../../../api/saveToken';
+import saveUser from '../../../api/saveUser';
+import { AuthContext } from '../../../contexts/AuthContext' 
+
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -19,12 +23,19 @@ const validationSchema = yup.object().shape({
   phone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
 })
 
-const ChangeInfo = async (values , navigation) =>{
+const ChangeInfo = async (values , navigation, chanInfo) =>{
   getToken()
     .then(token =>{
-      changeInfo(token, values.name,  values.address, values.phone,)
+      console.log(token)
+      changeInfo(token, values.name,  values.address, values.phone)
       .then(res => {
-        if(res.msg =='Success') onSuccess(navigation)
+        console.log(res)
+        if(res.msg === 'Success') {
+          saveToken(res.token)
+          saveUser(res.user)
+          chanInfo();
+          onSuccess(navigation)
+        }
         else onFail();
       })
     })
@@ -50,14 +61,7 @@ const onFail = () => {
   )
 }
 export const Information = ({route, navigation}) => {
-
-  React.useEffect(() => {
-    
-    console.log("componentDidUnmount");
-    return () => {
-      console.log("componentWillUnmount");
-    };
-  }, []);
+  const { chanInfo } = React.useContext(AuthContext);
   return (
     <View style = {{flex: 1 }}>
       <KeyboardAwareScrollView style = {styles.main}>
@@ -67,7 +71,7 @@ export const Information = ({route, navigation}) => {
           source={require('../../../assets/image-background.png')} 
           /> 
         </View>
-        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+        <View style={styles.icon}>
           <Image 
           source={{
             uri: 'https://react-ui-kit.com/assets/img/react-ui-kit-logo-green.png',
@@ -76,7 +80,7 @@ export const Information = ({route, navigation}) => {
             scale: 0.5,
           }}
           style = {styles.avatar}/>
-          <Text style={styles.txtname}>{route.params.user.name}</Text>
+          <Text style={styles.txtName}>{route.params.user.name}</Text>
         <Text style={styles.txtEmail}>{route.params.user.email}</Text>
         </View>
         <View style={ styles.content}> 
@@ -85,7 +89,7 @@ export const Information = ({route, navigation}) => {
         <Formik
         initialValues = {route.params.user}
         onSubmit = {(values) => {
-          ChangeInfo(values, navigation)
+          ChangeInfo(values, navigation, chanInfo)
         }}
         validationSchema = {validationSchema}
         >
@@ -99,7 +103,6 @@ export const Information = ({route, navigation}) => {
             formikProps = {formikProps}
             label='name'
             value={formikProps.values.name}
-            // formikKey = 'name'
             onChangeText = {formikProps.handleChange('name')}
             onBlur = {formikProps.handleBlur('name')}
             />
@@ -142,14 +145,11 @@ export const Information = ({route, navigation}) => {
             style={styles.buttonSave}
             onPress={ formikProps.handleSubmit} 
              >
-              <Text button>Save</Text>
+              <Text button style={styles.txtSave}> Save</Text>
             </Button>
           </Block>
-
         )}
         </Formik>
-
-
         </View>
         
       </KeyboardAwareScrollView>
@@ -157,8 +157,17 @@ export const Information = ({route, navigation}) => {
   );
 };
 const styles = StyleSheet.create({
+  txtSave: {
+    color: 'white', 
+    fontSize: 18}
+  ,
   main: {
     height: height - height/10,
+  },
+  icon: { 
+    flexDirection: 'column', 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   textarea:{
     marginLeft: 50,
@@ -182,6 +191,13 @@ const styles = StyleSheet.create({
     marginLeft: 50, 
     marginRight: 50
   },
+  buttonSave:{
+    borderRadius: 25,
+    marginBottom: 20,
+    marginLeft: 50,
+    marginRight: 50,
+  }
+  ,
   input:{
     marginLeft: 50,
     marginRight: 50,
@@ -212,7 +228,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     marginLeft: 15,
   },
-  txtname: {
+  txtName: {
     marginTop: -10,
     color: '#717C81',
     fontSize: 18
