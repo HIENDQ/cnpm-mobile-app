@@ -1,5 +1,7 @@
-const changePassword = (token, name, address, phone) =>{
-    fetch('link', 
+
+import link from './link';
+const changeInfo = (token, name, address, phone) =>(
+    fetch('http://'+link+':5000/api/auth/changeInfo', 
     {
         method: 'POST',
         headers: {
@@ -9,5 +11,8 @@ const changePassword = (token, name, address, phone) =>{
         body: JSON.stringify({token, name, address, phone })
     })
     .then(res => res.json())
-};
-module.exports = changePassword;
+    .catch((error)=>{
+        console.log("Api call error");
+     })
+);
+module.exports = changeInfo;
