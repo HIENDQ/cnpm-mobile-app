@@ -19,7 +19,7 @@ import { AuthContext } from '../../../contexts/AuthContext'
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const validationSchema = yup.object().shape({
-  name: yup.string().label('name').required(),
+  name: yup.string().label('name').required('Name is a required field'),
   phone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
 })
 

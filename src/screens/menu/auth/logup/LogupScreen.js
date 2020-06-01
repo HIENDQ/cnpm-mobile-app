@@ -12,8 +12,8 @@ import register from '../../../../api/register'
 
 const { height } = Dimensions.get('window');
 const validationSchema = yup.object().shape({
-  name: yup.string().label('Full name').required(),
-  email: yup.string().label('Email').email().required(),
+  name: yup.string().label('Full name').required('Name is a required field'),
+  email: yup.string().label('Email').email().required('Email is a required field'),
   password: yup.string().label('Password').required().min(3, 'Seems a bit short...').max(10, 'We prefer insecure system, try a shorter password'),
   confirmPassword: yup.string().label('confirm password').test('passwords-match', 'Passwords must match ya fool', function(value) {
     return this.parent.password === value;

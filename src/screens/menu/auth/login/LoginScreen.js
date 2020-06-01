@@ -13,7 +13,7 @@ import { AuthContext } from '../../../../contexts/AuthContext'
 const { height } = Dimensions.get('window');
 
 const validationSchema = yup.object().shape({
-  email: yup.string().label('Email').email().required(),
+  email: yup.string().label('Email').email().required('Please enter your email!'),
   password: yup.string().label('Password').required().min(3, 'Seems a bit short...').max(10, 'We prefer insecure system, try a shorter password')
 })
 
