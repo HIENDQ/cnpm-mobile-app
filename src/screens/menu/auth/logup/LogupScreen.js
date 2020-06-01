@@ -116,7 +116,7 @@ export const LogupScreen = ({ navigation }) =>  {
               Already have an account? 
                 <Text height={18}
                   color="blue"
-                  onPress={() => navigation.navigate(Route.SIGN_IN)}>  Sign in
+                  onPress={() => navigation.navigate(Route.LOGIN)}>  Sign in
                 </Text>
             </Text>
           </Block>
@@ -127,7 +127,6 @@ export const LogupScreen = ({ navigation }) =>  {
       </KeyboardAwareScrollView>
     )
   }
-
 
 const styles = StyleSheet.create({
   card: {

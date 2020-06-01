@@ -14,6 +14,7 @@ import { Information } from './information/Information';
 import { ChangePassword } from '../menu/changePassword/ChangePassword';
 import { LoginScreen }from '../menu/auth/login/LoginScreen';
 import { LogupScreen }from '../menu/auth/logup/LogupScreen';
+import { History } from '../menu/history/History';
 
 
 import icMenu from '../../assets/icons/bars.png';
@@ -38,6 +39,15 @@ export const MenuScreens = ({ navigation, style }) => {
           <Stack.Screen name = { Route.DASHBOARD }>{props => <Dashboard {...props} />}</Stack.Screen>
           <Stack.Screen name = { Route.INFO }>{props => <Information {...props} />}</Stack.Screen>
           <Stack.Screen name = { Route.CHANGE_PASSWORD }>{props => <ChangePassword {...props} />}</Stack.Screen>
+          <Stack.Screen name = { Route.HISTORY }
+          options ={{
+            headerTransparent: true,
+            headerLeft:  null,
+            title: null,
+
+          }}
+          >{props => <History {...props} />}</Stack.Screen>
+          
           <Stack.Screen 
           name = {Route.LOGIN}
           options ={{

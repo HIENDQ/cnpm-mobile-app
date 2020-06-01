@@ -18,17 +18,16 @@ const validationSchema = yup.object().shape({
 })
 
 const Login = async (values, navigation, signIn) =>{
+
   login(values)
     .then(res => {
       if(res.token)  {
         saveToken(res.token);
         signIn();
-        navigation.navigate(Route.DASHBOARD)
-        
+        navigation.navigate(Route.DASHBOARD) 
       }
       else console.log('Has not token')
     })
-
 }
 export const LoginScreen = ({ navigation }) => {
    const { signIn } = React.useContext(AuthContext);
@@ -95,7 +94,7 @@ export const LoginScreen = ({ navigation }) => {
                     Don't have an account? <Text
                     height={18}
                     color="blue"
-                    onPress={() => navigation.navigate({name: Route.LOGUP, key: 'l'} )}>
+                    onPress={() => navigation.navigate(Route.LOGUP)}>
                     Sign up
                   </Text>
                 </Text>

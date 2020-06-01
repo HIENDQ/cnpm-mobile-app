@@ -6,7 +6,7 @@ export default {
     LOGUP: 'LogUp',
     CHANGE_PASSWORD: 'Change Password',
     INFO: 'Information',
-    POSTED: 'Posted',
+    HISTORY: 'History',
     
     HOME: 'Home',
     ACTION: 'Action',

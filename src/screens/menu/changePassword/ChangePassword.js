@@ -11,6 +11,7 @@ import * as yup from 'yup'
 import { Button, Block, Text, Input } from '../../../components';
 import * as theme from '../../../constants/theme';
 const { height } = Dimensions.get('window');
+
 const validationSchema = yup.object().shape({
   currentPassword: yup.string().label('Current Password').required(),
   password: yup.string().label('Password').required().min(3, 'Seems a bit short...').max(10, 'We prefer insecure system, try a shorter password'),
@@ -104,6 +105,7 @@ export const ChangePassword = ({ navigation }) =>{
               </Button>
           </Block>
         </Block>
+        
         )}
         </Formik>
         

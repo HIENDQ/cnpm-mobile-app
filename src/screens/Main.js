@@ -30,8 +30,12 @@ export default () => {
         console.log('signIn MAIN')
         getToken()
           .then( token => {
-            setToken(token)
-            checkLogin(token).then(res=> saveUser(res.user) )})
+            setToken(token);
+            checkLogin(token).then(res => {
+              setUser(res.user)
+              saveUser(res.user)
+            })
+          })
       },
       chanInfo: async () =>{
         console.log('Change Information')

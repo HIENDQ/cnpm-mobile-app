@@ -18,9 +18,6 @@ import icHistory from '../../assets/icons/ic_file.png';
 
 export const DrawerMenuHasToken = (props) => {
   const { signOut } = React.useContext(AuthContext);
-
-  
-
   return (
     <DrawerContentScrollView {...props} scrollEnabled={false} contentContainerStyle={{ flex: 1 }}>
       <Block>
@@ -43,18 +40,12 @@ export const DrawerMenuHasToken = (props) => {
           </Text>
         </Block>
         <Block>
-          {/* <DrawerItem
-            label="Dashboard"
-            labelStyle={styles.drawerLabel}
-            style={styles.drawerItem}
-            onPress={() => props.navigation.navigate('Home')}
-            icon={() => <AntDesign name="dashboard" color="white" size={16} />}
-          /> */}
+          
           <DrawerItem
             label="History"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
-            onPress={() => props.navigation.navigate(Route.POSTED)}
+            onPress={() => props.navigation.navigate(Route.HISTORY)}
             icon={() => <Image source={icHistory } style={styles.icon} />}
           />
 
@@ -62,10 +53,7 @@ export const DrawerMenuHasToken = (props) => {
             label="Information"
             labelStyle={{ color: 'white', marginLeft: -16 }}
             style={{ alignItems: 'flex-start', marginVertical: 0 }}
-            onPress={() => {props.navigation.navigate(Route.INFO, 
-              {
-                ...props
-              } )}}
+            onPress={() => {props.navigation.navigate(Route.INFO, { user: props.user })}}
             icon={() => <Image source={icChangInfo } style={styles.icon} />}
           />
           <DrawerItem
@@ -80,7 +68,10 @@ export const DrawerMenuHasToken = (props) => {
           labelStyle={{ color: 'white' , marginLeft: -16}}
           style={{ alignItems: 'flex-start', marginVertical: 0 }}
           icon={() =><Image source={icLogout } style={styles.icon} />}
-          onPress={() => signOut() }
+          onPress={() => {
+            signOut()
+            props.navigation.navigate(Route.DASHBOARD)
+          } }
         />
         </Block>
       </Block>
