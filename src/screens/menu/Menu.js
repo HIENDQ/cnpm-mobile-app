@@ -8,7 +8,7 @@ import { Button } from 'expo-ui-kit';
 
 import Route from '../../constants/Route';
 
-import Dashboard from '../dashboard/DashBoardView'
+import { Dashboard } from '../dashboard/DashBoard'
 import { Information } from './information/Information';
 
 import { ChangePassword } from '../menu/changePassword/ChangePassword';
@@ -36,7 +36,15 @@ export const MenuScreens = ({ navigation, style }) => {
               </Button>
             ),
           }}>
-          <Stack.Screen name = { Route.DASHBOARD }>{props => <Dashboard {...props} />}</Stack.Screen>
+          <Stack.Screen name = { Route.DASHBOARD }
+
+          options ={{
+            headerTransparent: true,
+            headerLeft:  null,
+            title: null,
+          }}
+          
+          >{props => <Dashboard {...props} />}</Stack.Screen>
           <Stack.Screen name = { Route.INFO }>{props => <Information {...props} />}</Stack.Screen>
           <Stack.Screen name = { Route.CHANGE_PASSWORD }>{props => <ChangePassword {...props} />}</Stack.Screen>
           <Stack.Screen name = { Route.HISTORY }
@@ -44,7 +52,6 @@ export const MenuScreens = ({ navigation, style }) => {
             headerTransparent: true,
             headerLeft:  null,
             title: null,
-
           }}
           >{props => <History {...props} />}</Stack.Screen>
           

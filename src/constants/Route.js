@@ -9,7 +9,7 @@ export default {
     HISTORY: 'History',
     
     HOME: 'Home',
-    ACTION: 'Action',
+    SAVE: 'Save',
     POST: 'Post',
     SEARCH: 'Search',
     MAP: 'Map',

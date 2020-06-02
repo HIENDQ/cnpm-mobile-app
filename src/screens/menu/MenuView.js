@@ -14,6 +14,7 @@ import icLogout from '../../assets/icons/ic_logout.png';
 import icChangInfo from '../../assets/icons/ic_avatar.png';
 import icChangePassword from '../../assets/icons/ic_key.png';
 import icHistory from '../../assets/icons/ic_file.png';
+import icHome from '../../assets/icons/ic_home-mn.png'
 
 
 export const DrawerMenuHasToken = (props) => {
@@ -40,7 +41,13 @@ export const DrawerMenuHasToken = (props) => {
           </Text>
         </Block>
         <Block>
-          
+        <DrawerItem
+            label="Home"
+            labelStyle={{ color: 'white', marginLeft: -16 }}
+            style={{ alignItems: 'flex-start', marginVertical: 0 }}
+            onPress={() => props.navigation.navigate(Route.DASHBOARD)}
+            icon={() => <Image source={icHome } style={styles.icon} />}
+          />  
           <DrawerItem
             label="History"
             labelStyle={{ color: 'white', marginLeft: -16 }}
