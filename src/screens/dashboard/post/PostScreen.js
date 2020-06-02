@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 export default () => {
   return (
     <View style = {styles.container}>
-      <Text> DashBoard Screen</Text>
+      <Text> Post Screen</Text>
     </View>
   );
 };
