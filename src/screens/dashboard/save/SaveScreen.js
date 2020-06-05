@@ -3,13 +3,13 @@ import { View, StyleSheet, Text, TouchableOpacity, Image, Dimensions, FlatList }
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import icMenu from '../../../assets/icons/bars.png';
-import Item from '../../../components/Item';
-import { NewContext } from "../../../contexts/NewContext";
+import { Item } from '../../../components/Item';
 import getNewsInStorage from '../../../api/getNewsInStorage';
 
 var { width, height } = Dimensions.get('window');
 
 export const SaveScreen = ({navigation}) => {
+
   const [data, setData] = React.useState([]);// data: list
   useEffect(() => {
     getNewsInStorage()
@@ -36,9 +36,9 @@ export const SaveScreen = ({navigation}) => {
       <View style={styles.divider}/>
       <KeyboardAwareScrollView>
         <FlatList
-              data={data}
-              renderItem={({ item }) => <Item navigation= { navigation } item = { item } />}
-              keyExtractor={item => item._id}/> 
+            data={data}
+            renderItem={({ item }) => <Item navigation= { navigation } item = { item } />}
+            keyExtractor={item => item._id}/> 
       </KeyboardAwareScrollView>
     </View>
   );
