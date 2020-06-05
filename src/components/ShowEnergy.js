@@ -1,8 +1,7 @@
 import React from 'react';
-import { SimpleLineIcons, } from '@expo/vector-icons';
 import { Image, View , StyleSheet } from 'react-native';
 
-import icEnergy from '../assets/icons/ic_energy.png'
+import icEnergy from '../assets/icons/ic_phone.png'
 export default class ShowEnergy extends React.Component{
     constructor(props){
         super(props);

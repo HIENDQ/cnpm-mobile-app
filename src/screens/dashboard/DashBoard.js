@@ -5,7 +5,7 @@ import { StyleSheet , Image } from 'react-native';
 
 import Route from '../../constants/Route';
 import { HomeScreen } from '../dashboard/home/HomeScreen';
-import { DetailScreen } from './DetailScreen';
+import { DetailScreen} from './DetailScreen';
 import { MapScreen } from './MapScreen';
 import { PostScreen } from '../dashboard/post/PostScreen';
 import { SaveScreen } from '../dashboard/save/SaveScreen';

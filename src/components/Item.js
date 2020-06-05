@@ -4,57 +4,76 @@ import { Feather, Ionicons,AntDesign } from '@expo/vector-icons';
 var { width,height } = Dimensions.get('window');
 import Text from './Text';
 import Route from '../constants/Route';
+import getNewsInStorage from '../api/getNewsInStorage';
 
-import icMap from '../assets/icons/ic_map-marker.png'
-import icClock from '../assets/icons/ic_clock.png'
+import icMap from '../assets/icons/ic_map-marker.png';
+import icClock from '../assets/icons/ic_clock.png';
+import icheart from '../assets/icons/love.png';
+import icheartbr from '../assets/icons/h.png';
 
-var box_height = height/5+10;
+var box_height = height/4+20;
 
-export default class Item extends Component {
 
-  render() {
-    const  navigation  = this.props.navigation;
-    return (
-      <TouchableOpacity onPress={() => navigation.push( Route.DETAIL )}>
-          <View style={styles.container}>
-            <View style={ styles.box1 }>
-              <View style={ styles.box3 }>
-                <Image
-                  style = {styles.img}
-                  source={{
-                    uri: 'https://reactnative.dev/img/tiny_logo.png',
-                  }}
-                /> 
-              </View>
-              <View style={ styles.box4 }>
-                <Text  h4 style = {styles.title}>
-                  Phòng cho thuê Phonng Bắc 1, Cẩm Lệ
-                </Text>
-                <Text  style={{fontSize: 18, marginTop: 8 ,color: '#9D150A'}}>
-                  6 Triệu VND/tháng
-                </Text>
-              </View>
+export const Item = ({navigation , item})=>{
+  const [isSave, setSave] = React.useState(false);
+
+  React.useEffect(() => {
+    getNewsInStorage()
+      .then(result => {
+        if(result.find(data => data._id === item._id)) setSave(true);
+      })
+    return () => {
+    };
+  }, []);
+
+  return (
+    <TouchableOpacity onPress={() => navigation.push(Route.DETAIL,{ item})}>
+      {/* onPress={() => {props.navigation.navigate(Route.INFO, { user: props.user })}} */}
+        <View style={styles.container}>
+          <View style={ styles.box1 }>
+            <View style={ styles.box3 }>
+              <Image
+                style = {styles.img}
+                source={{
+                  uri: item.picture,
+                }}
+              /> 
             </View>
-            <View style={ styles.box2 }>
-              <View style = {styles.box5}>
-              <Image source={icMap} style = {styles.icon}/>
-                <Text style = {styles.address}>K33/03 Đông Giang, Phường An Hải Tây...</Text>
-              </View>
-              <View style = {styles.box6}>
-                <View style = {styles.box7}>
-                  <Image source={icClock} style = {styles.icon}/>
-                  <Text style = {styles.address}>1-5-2020 14:50:40</Text>
-                </View>
-                <View style = {styles.box8}>
-                  <AntDesign name = 'hearto' color = 'red' size = {16} style = {styles.icon}/>
-                  <Text style = {styles.save}>Lưu tin</Text>
-                </View>
-              </View>
+            <View style={ styles.box4 }>
+              <Text  h4 style = {styles.title}>
+                {item.titile}
+              </Text>
+              <Text  style={{fontSize: 18, marginTop: 8 ,color: '#9D150A'}}>
+                6 Triệu VND/tháng
+              </Text>
             </View>
           </View>
-      </TouchableOpacity>
-    );
-  }
+          <View style={ styles.box2 }>
+            <View style = {styles.box5}>
+            <Image source={icMap} style = {styles.icon}/>
+              <Text style = {styles.address}>{item.address}</Text>
+            </View>
+            <View style = {styles.box6}>
+              <View style = {styles.box7}>
+                <Image source={icClock} style = {styles.icon}/>
+              <Text style = {styles.address}>{item.createDay}</Text>
+              </View>
+
+              {!isSave? 
+              <View style = {styles.box8}>
+                <Image source={icheart } style={styles.icon} />
+                <Text style = {styles.save}>Lưu tin</Text>
+              </View>
+              :
+              <View style = {styles.box8}>
+                <Image source={icheartbr } style={styles.icon} />
+                <Text style = {styles.save}>Đã lưu</Text>
+              </View>}
+            </View>
+          </View>
+        </View>
+    </TouchableOpacity>
+  );
 }
  
 const styles = StyleSheet.create({
@@ -108,7 +127,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: width/3+10,
-    height: height/9-10,
+    height: height/8,
     marginTop: 10
   },
   title: {
@@ -118,6 +137,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 16,
     height: 16,
+    marginTop: 3,
     marginLeft: 5
   },
   address: {
